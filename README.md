@@ -1,10 +1,13 @@
 # Requirements
 - python 3
-- sqlalchemy
+- MySQL
 - GeoIP
 - twisted
 
 # Installation
+
+Python 3 is required before proceeding to next steps.
+
 ```
 # git clone git@github.com:spring/uberserver.git
 # python3 -m venv ~/var/www/.virtualenvs/uberserver
@@ -12,10 +15,12 @@
 # pip install SQLAlchemy pycrypto twisted pyOpenSSL GeoIP mysqlclient
 ```
 
+Note: The last command mail fail if you don't have MySQL or GeoIP installed,
+you can omit these as they aren't required for testing purposes.
+
 Without further configuration this will create a SQLite database (server.db).
 Performance will be OK for testing and small setups. For production use,
 setup MySQL/PostgreSQL/etc.
-
 
 
 ## Installing and configuring GeoIP
@@ -42,10 +47,13 @@ setup MySQL/PostgreSQL/etc.
 
 
 # Usage
-```
-# source ~/var/www/.virtualenvs/uberserver/bin/activate
-# ./server.py -v 103.0
-```
+
+    source ~/var/www/.virtualenvs/uberserver/bin/activate
+    ./server.py -v 103.0
+
+For more information:
+
+    ./server.py --help
 
 # Logs
 - `$PWD/server.log`

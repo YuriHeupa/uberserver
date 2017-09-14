@@ -43,7 +43,7 @@ def deploy():
     run(command % (env.app_root, env.git_branch, env.git_branch))
 
     ## update python packages
-    command = 'source %s; cd %s; pip install -r requirements.txt' % (env.virtual, env.app_root)
+    command = 'source %s; cd %s; pip3 install -r requirements.txt' % (env.virtual, env.app_root)
     run(command)
     # sudo(command, user='www-data')
 
