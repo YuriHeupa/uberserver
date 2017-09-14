@@ -48,7 +48,7 @@ def deploy():
     # sudo(command, user='www-data')
 
     ## restart service
-    command = 'cd "%s" && %s'
+    command = 'cd "%s" && %s -v 103.0'
     run(command % (env.app_root, env.server_script))
 
     final = time.time()
