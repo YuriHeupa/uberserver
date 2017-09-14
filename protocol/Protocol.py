@@ -280,7 +280,7 @@ class Protocol:
             command = msg
 
         command = command.upper()
-        allowed = False
+        allowed = True  # TODO Make everyone allowed to register and connect, change to false to disable
 
         for level in client.accesslevels:
             if command in restricted[level]:

@@ -45,11 +45,10 @@ def deploy():
     ## update python packages
     command = 'source %s; cd %s; pip3 install -r requirements.txt' % (env.virtual, env.app_root)
     run(command)
-    # sudo(command, user='www-data')
 
     ## restart service
-    command = 'cd "%s" && %s -v 103.0'
-    run(command % (env.app_root, env.server_script))
+    command = 'source %s; cd %s; %s -v 103.0' % (env.virtual, env.app_root, env.server_script)
+    run(command)
 
     final = time.time()
     puts('execution finished in %.2fs' % (final - start))
