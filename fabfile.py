@@ -22,16 +22,6 @@ def amazon():
     env.git_branch = 'master'
     env.virtual = '/var/www/.virtualenvs/uberserver/bin/activate'
 
-def amazon():
-    env.hosts = ['root@bitsteakcom']
-    env.app_root = '/srv/uberserver/'
-    env.server_script = './server.py'
-    env.git_origin = 'git@github.com:YuriHeupa/uberserver.git'
-    env.key_filename = "lohann.pem"
-    env.password = "Lpcf97109011"
-    env.git_branch = 'master'
-    env.virtual = '/var/www/.virtualenvs/uberserver/bin/activate'
-
 ##
 ## available commands
 ##

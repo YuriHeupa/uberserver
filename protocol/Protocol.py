@@ -483,7 +483,7 @@ class Protocol:
             missing_flags += ' p'
         if len(missing_flags) > 0:
             logging.info('[%s] <%s> client "%s" missing compat flags:%s' % (
-            client.session_id, client.username, client.lobby_id, missing_flags))
+                client.session_id, client.username, client.lobby_id, missing_flags))
 
     def _validLegacyPasswordSyntax(self, password):
         'checks if an old-style password is correctly encoded'
@@ -660,19 +660,19 @@ class Protocol:
         battle.host = host.session_id  # session_id -> username
         if client.compat['cl']:  # supports cleanupBattles
             return 'BATTLEOPENED %s %s %s %s %s %s %s %s %s %s %s\t%s\t%s\t%s\t%s' % (
-            battle.id, battle.type, battle.natType, host.username, battle.ip, battle.port, battle.maxplayers,
-            battle.passworded, battle.rank, battle.maphash, battle.engine, battle.version, battle.map, battle.title,
-            battle.modname)
+                battle.id, battle.type, battle.natType, host.username, battle.ip, battle.port, battle.maxplayers,
+                battle.passworded, battle.rank, battle.maphash, battle.engine, battle.version, battle.map, battle.title,
+                battle.modname)
 
         # give client without version support a hint, that this battle is incompatible to his version
         if not (battle.engine == 'spring' and (
-                battle.version == self._root.latestspringversion or battle.version == self._root.latestspringversion + '.0')):
+                        battle.version == self._root.latestspringversion or battle.version == self._root.latestspringversion + '.0')):
             title = 'Incompatible (%s %s) %s' % (battle.engine, battle.version, battle.title)
         else:
             title = battle.title
         return 'BATTLEOPENED %s %s %s %s %s %s %s %s %s %s %s\t%s\t%s' % (
-        battle.id, battle.type, battle.natType, host.username, battle.ip, battle.port, battle.maxplayers,
-        battle.passworded, battle.rank, battle.maphash, battle.map, title, battle.modname)
+            battle.id, battle.type, battle.natType, host.username, battle.ip, battle.port, battle.maxplayers,
+            battle.passworded, battle.rank, battle.maphash, battle.map, title, battle.modname)
 
     def is_ignored(self, client, ignoredClient):
         # verify that this is an online client (only those have an .ignored attr)
@@ -925,7 +925,7 @@ class Protocol:
         for battleid, battle in self._root.battles.items():
             client.RealSend(self.client_AddBattle(client, battle))
             client.RealSend('UPDATEBATTLEINFO %s %i %i %s %s' % (
-            battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
+                battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
             for session_id in battle.users:
                 battleclient = self.clientFromSession(session_id)
                 if not battleclient.session_id == battle.host:
@@ -1001,7 +1001,7 @@ class Protocol:
             user = self.clientFromSession(session_id)
             if not user:
                 logging.info('[%s] ERROR: <%s>: %s %s user not in channel: %s' % (
-                client.session_id, client.username, chan, params, username))
+                    client.session_id, client.username, chan, params, username))
                 continue
             if user.compat['o']:
                 user.Send(newout)
@@ -1345,12 +1345,12 @@ class Protocol:
             self.out_SERVERMSG(client, '%s user not found' % user)
 
     def in_JOIN(self, client, chan, key=None):
-        '''
+        """
 		Attempt to join target channel.
 
 		@required.str channel: The target channel.
 		@optional.str password: The password to use for joining if channel is locked.
-		'''
+		"""
         chan = chan.lstrip('#')
         ok, reason = self._validChannelSyntax(chan)
         if not ok:
@@ -1425,20 +1425,20 @@ class Protocol:
             for msg in msgs:
                 client.Send("SAID %s %s %s" % (chan, msg[1], msg[2]))
 
-            # disabled because irc bridge spams JOIN commands
-            #
-            # a user can rejoin a channel to get the topic while in it
-            # topic = channel.topic
-            # if topic and user in channel.users:
-            #	client.Send('CHANNELTOPIC %s %s %s %s'%(chan, topic['user'], topic['time'], topic['text']))
+                # disabled because irc bridge spams JOIN commands
+                #
+                # a user can rejoin a channel to get the topic while in it
+                # topic = channel.topic
+                # if topic and user in channel.users:
+                #	client.Send('CHANNELTOPIC %s %s %s %s'%(chan, topic['user'], topic['time'], topic['text']))
 
     def in_SETCHANNELKEY(self, client, chan, key='*'):
-        '''
+        """
 		Lock target channel with a password, or unlocks target channel.
 
 		@required.str channel: The target channel.
 		@optional.str password: The password to set. To unlock a channel, leave this blank or set to '*'.
-		'''
+		"""
         if chan in self._root.channels:
             channel = self._root.channels[chan]
             if channel.isOp(client):
@@ -1459,7 +1459,7 @@ class Protocol:
             del self._root.channels[chan]
 
     def in_OPENBATTLE(self, client, type, natType, password, port, maxplayers, hashcode, rank, maphash, sentence_args):
-        '''
+        """
 		Host a new battle with the arguments specified.
 
 		@required.int type: The type of battle to host.
@@ -1482,7 +1482,7 @@ class Protocol:
 		@required.sentence.str mapName: The map name.
 		@required.sentence.str title: The battle's title.
 		@required.sentence.str modName: The mod name.
-		'''
+		"""
         if client.current_battle:
             self.in_LEAVEBATTLE(client)
 
@@ -1952,7 +1952,7 @@ class Protocol:
 
         if oldspecs != spectators:
             self._root.broadcast('UPDATEBATTLEINFO %s %i %i %s %s' % (
-            battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
+                battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
 
         newstatus = self._calc_battlestatus(client)
         statuscmd = 'CLIENTBATTLESTATUS %s %s %s' % (client.username, newstatus, myteamcolor)
@@ -1978,7 +1978,7 @@ class Protocol:
                 maphash = int32(maphash)
             except:
                 self.out_SERVERMSG(client, "UPDATEBATTLEINFO failed - Invalid map hash send: %s %s " % (
-                str(mapname), str(maphash)), True)
+                    str(mapname), str(maphash)), True)
                 maphash = 0
                 return
 
@@ -1987,12 +1987,12 @@ class Protocol:
                 return
 
             oldstr = 'UPDATEBATTLEINFO %s %i %i %s %s' % (
-            battle.id, battle.spectators, battle.locked, battle.maphash, battle.map)
+                battle.id, battle.spectators, battle.locked, battle.maphash, battle.map)
             battle.locked = int(locked)
             battle.maphash = maphash
             battle.map = mapname
             newstr = 'UPDATEBATTLEINFO %s %i %i %s %s' % (
-            battle.id, battle.spectators, battle.locked, battle.maphash, battle.map)
+                battle.id, battle.spectators, battle.locked, battle.maphash, battle.map)
             if oldstr != newstr:
                 self._root.broadcast(newstr)
 
@@ -2320,7 +2320,7 @@ class Protocol:
             'CLIENTBATTLESTATUS %s %s %s' % (username, self._calc_battlestatus(user), user.teamcolor),
             user.current_battle)
         self._root.broadcast('UPDATEBATTLEINFO %s %i %i %s %s' % (
-        battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
+            battle.id, battle.spectators, battle.locked, battle.maphash, battle.map))
 
     def in_ADDBOT(self, client, name, battlestatus, teamcolor, AIDLL):
         '''
@@ -2407,7 +2407,7 @@ class Protocol:
 
         ingame_time = int(self._root.usernames[username].ingame_time)
         self.out_SERVERMSG(client, '<%s> has an ingame time of %d minutes (%d hours).' % (
-        username, ingame_time, ingame_time / 60))
+            username, ingame_time, ingame_time / 60))
 
     def in_GETLASTLOGINTIME(self, client, username):
         '''
@@ -2421,7 +2421,7 @@ class Protocol:
                 self.out_SERVERMSG(client, '<%s> last logged in on %s.' % (username, data.isoformat()))
             else:
                 self.out_SERVERMSG(client, 'Database returned error when retrieving last login time for <%s> (%s)' % (
-                username, data))
+                    username, data))
 
     def in_GETREGISTRATIONDATE(self, client, username=None):
         '''
@@ -2468,7 +2468,7 @@ class Protocol:
             self.out_SERVERMSG(client, 'Account access for <%s>: %s' % (username, data))
         else:
             self.out_SERVERMSG(client, 'Database returned error when retrieving account access for <%s> (%s)' % (
-            username, data))
+                username, data))
 
     def in_FINDIP(self, client, address):
         '''
@@ -2917,7 +2917,7 @@ class Protocol:
             return
         user = self.clientFromUsername(username, True)
         if user.access in (
-        'mod', 'admin') and not client.access == 'admin':  # disallow mods to change other mods / admins email
+                'mod', 'admin') and not client.access == 'admin':  # disallow mods to change other mods / admins email
             self.out_SERVERMSG(client, "access denied")
             return
         user.email = newmail
