@@ -45,7 +45,6 @@ backlog = 100
 
 try:
     natserver = NATServer(natport)
-    print("natport %s" % natport)
     try:
         thread.start_new_thread(natserver.start, ())
     except NameError:
